@@ -49,6 +49,7 @@ class HomeFragment : Fragment(),Cantrakt.View {
         precenter= Precenter(this,ApiClient)
         precenter.apiSuccessOrFail()
 
+
         return binding.root
     }
 

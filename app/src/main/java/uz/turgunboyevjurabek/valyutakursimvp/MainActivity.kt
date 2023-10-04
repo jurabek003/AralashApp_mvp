@@ -2,6 +2,7 @@ package uz.turgunboyevjurabek.valyutakursimvp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.navigation.findNavController
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation
 import uz.turgunboyevjurabek.valyutakursimvp.databinding.ActivityMainBinding
 
@@ -13,14 +14,41 @@ class MainActivity : AppCompatActivity() {
 
         meowButtonNavigationCreate()
 
-
     }
 
     private fun meowButtonNavigationCreate() {
+
         binding.meowButtonNavigation.add(MeowBottomNavigation.Model(1,R.drawable.ic_home))
         binding.meowButtonNavigation.add(MeowBottomNavigation.Model(2,R.drawable.ic_notification))
         binding.meowButtonNavigation.add(MeowBottomNavigation.Model(3,R.drawable.ic_account))
         binding.meowButtonNavigation.add(MeowBottomNavigation.Model(4,R.drawable.ic_info))
+
+        // meowButtonNavigation ni aytimlari bosilishini eshitish uchun
+        binding.meowButtonNavigation.setOnClickMenuListener { t->
+            when(t.id){
+                1->{
+                    findNavController(R.id.my_navigation_host).navigate(R.id.homekFragment)
+                    binding.meowButtonNavigation.show(1)
+                }
+                2->{
+                    findNavController(R.id.my_navigation_host).navigate(R.id.notifationFragment)
+
+                }
+                3->{
+                    findNavController(R.id.my_navigation_host).navigate(R.id.accountFragment)
+
+                }
+                4->{
+                    findNavController(R.id.my_navigation_host).navigate(R.id.infoFragment)
+                    binding.meowButtonNavigation.show(4)
+                }
+                else -> {
+                    findNavController(R.id.my_navigation_host)
+                    binding.meowButtonNavigation.show(1)
+                }
+            }
+
+        }
 
     }
 }

@@ -7,6 +7,10 @@ import uz.turgunboyevjurabek.valyutakursimvp.madels.Valyuta_get
 interface Cantrakt {
 
     interface View{
+        fun showProgress()
+        fun hideProgress()
+        fun successfulResponse(list: ArrayList<Valyuta_get>)
+        fun errorResponse(tht:String)
 
     }
 
@@ -18,6 +22,6 @@ interface Cantrakt {
     }
 
     interface Presenter{
-
+        fun apiSuccessOrFail()
     }
 }

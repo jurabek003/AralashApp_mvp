@@ -25,7 +25,7 @@ class Precenter(private val mainView :Cantrakt.View,private val madel:ApiClient)
                     mainView.errorResponse(t.message.toString())
                 }
             })
-        },500)
+        },1000)
 
     }
 

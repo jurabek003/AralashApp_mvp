@@ -7,8 +7,20 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context=".fragments.HomeFragment">
-
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation_view"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/lotti_animation2" />
    <com.google.android.material.card.MaterialCardView
+       android:id="@+id/constraint_layout_1"
        android:layout_width="match_parent"
        android:layout_height="0dp"
        app:layout_constraintHeight_percent=".3"
@@ -21,7 +33,6 @@
        android:layout_margin="20dp">
 
        <androidx.constraintlayout.widget.ConstraintLayout
-           android:id="@+id/constraint_layout_1"
            android:layout_width="match_parent"
            android:layout_height="match_parent">
 
@@ -100,6 +111,7 @@
        </androidx.constraintlayout.widget.ConstraintLayout>
    </com.google.android.material.card.MaterialCardView>
 <com.google.android.material.card.MaterialCardView
+    android:id="@+id/constraint_layout_2"
     android:layout_width="match_parent"
     android:layout_height="0dp"
     app:layout_constraintHeight_percent=".5"
@@ -111,33 +123,20 @@
     app:layout_constraintBottom_toBottomOf="parent"
     >
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraint_layout_2"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_valyuta"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/animation_view"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        app:lottie_rawRes="@raw/lotti_animation2" />
 
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:id="@+id/rv_home"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>-->
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace 'uz.turgunboyevjurabek.valyutakursimvp'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "uz.turgunboyevjurabek.valyutakursimvp"
         minSdk 22
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -53,8 +53,10 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     // GSON
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    //Lottie Animation
+    implementation 'com.airbnb.android:lottie:3.4.0'
 
-        // agar gredle hatolik bersa kerak bo'ladi
+    // agar gredle hatolik bersa kerak bo'ladi
         // android.enableJetifier=true
 
 }

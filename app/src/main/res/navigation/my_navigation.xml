@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_navigation"
+    app:startDestination="@id/homekFragment">
+
+    <fragment
+        android:id="@+id/homekFragment"
+        android:name="uz.turgunboyevjurabek.valyutakursimvp.fragments.HomeFragment"
+        android:label="fragment_homek"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homekFragment_to_infoFragment"
+            app:destination="@id/infoFragment" />
+        <action
+            android:id="@+id/action_homekFragment_to_notifationFragment"
+            app:destination="@id/notifationFragment" />
+        <action
+            android:id="@+id/action_homekFragment_to_accountFragment"
+            app:destination="@id/accountFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="uz.turgunboyevjurabek.valyutakursimvp.fragments.AccountFragment"
+        android:label="fragment_account"
+        tools:layout="@layout/fragment_account" />
+    <fragment
+        android:id="@+id/infoFragment"
+        android:name="uz.turgunboyevjurabek.valyutakursimvp.fragments.InfoFragment"
+        android:label="fragment_info"
+        tools:layout="@layout/fragment_info" />
+    <fragment
+        android:id="@+id/notifationFragment"
+        android:name="uz.turgunboyevjurabek.valyutakursimvp.fragments.NotifationFragment"
+        android:label="fragment_notifation"
+        tools:layout="@layout/fragment_notifation" />
+</navigation>

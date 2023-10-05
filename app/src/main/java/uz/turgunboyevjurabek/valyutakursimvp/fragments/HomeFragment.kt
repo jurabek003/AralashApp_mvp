@@ -107,5 +107,9 @@ class HomeFragment : Fragment(),Cantrakt.View {
         binding.thtKurs2.setOnClickListener {
             dialog.show()
         }
+        itemMDialog.btnDialogBack.setOnClickListener {
+            dialog.cancel()
+        }
+
     }
 }

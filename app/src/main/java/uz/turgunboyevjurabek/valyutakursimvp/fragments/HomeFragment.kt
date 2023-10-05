@@ -6,11 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import uz.turgunboyevjurabek.valyutakursimvp.Cantract.Cantrakt
 import uz.turgunboyevjurabek.valyutakursimvp.Prezenter.Precenter
 import uz.turgunboyevjurabek.valyutakursimvp.R
 import uz.turgunboyevjurabek.valyutakursimvp.adapter.RvGetValyuta
 import uz.turgunboyevjurabek.valyutakursimvp.databinding.FragmentHomeBinding
+import uz.turgunboyevjurabek.valyutakursimvp.databinding.ItemMDialogBinding
 import uz.turgunboyevjurabek.valyutakursimvp.madels.Valyuta_get
 import uz.turgunboyevjurabek.valyutakursimvp.network.ApiClient
 
@@ -49,9 +51,9 @@ class HomeFragment : Fragment(),Cantrakt.View {
         precenter= Precenter(this,ApiClient)
         precenter.apiSuccessOrFail()
 
-
         return binding.root
     }
+
 
     companion object {
         /**
@@ -88,11 +90,23 @@ class HomeFragment : Fragment(),Cantrakt.View {
     override fun successfulResponse(list: ArrayList<Valyuta_get>) {
         rvGetValyuta=RvGetValyuta(list)
         binding.rvValyuta.adapter=rvGetValyuta
-
+        ayriboshlash()
     }
 
     override fun errorResponse(tht: String) {
         Toast.makeText(requireContext(), tht.toString(), Toast.LENGTH_LONG).show()
         showProgress()
+    }
+    private fun ayriboshlash(){
+        val dialog=MaterialAlertDialogBuilder(requireContext()).create()
+        val itemMDialog= ItemMDialogBinding.inflate(layoutInflater)
+        dialog.setView(itemMDialog.root)
+        binding.thtKurs1.setOnClickListener {
+            dialog.show()
+        }
+        binding.thtKurs2.setOnClickListener {
+            dialog.show()
+        }
+        dialog.show()
     }
 }

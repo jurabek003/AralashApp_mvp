@@ -32,11 +32,11 @@ class MainActivity : AppCompatActivity() {
                 }
                 2->{
                     findNavController(R.id.my_navigation_host).navigate(R.id.notifationFragment)
-
+                    binding.meowButtonNavigation.show(2)
                 }
                 3->{
                     findNavController(R.id.my_navigation_host).navigate(R.id.accountFragment)
-
+                    binding.meowButtonNavigation.show(3)
                 }
                 4->{
                     findNavController(R.id.my_navigation_host).navigate(R.id.infoFragment)

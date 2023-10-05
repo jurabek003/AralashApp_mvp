@@ -107,6 +107,5 @@ class HomeFragment : Fragment(),Cantrakt.View {
         binding.thtKurs2.setOnClickListener {
             dialog.show()
         }
-        dialog.show()
     }
 }

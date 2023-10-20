@@ -78,18 +78,16 @@ class HomeFragment : Fragment(),Cantrakt.View {
     override fun showProgress() {
         binding.animationView.visibility=View.VISIBLE
         binding.constraintLayout1.visibility=View.GONE
-        binding.constraintLayout2.visibility=View.GONE
+
     }
 
     override fun hideProgress() {
         binding.animationView.visibility=View.GONE
         binding.constraintLayout1.visibility=View.VISIBLE
-        binding.constraintLayout2.visibility=View.VISIBLE
     }
 
     override fun successfulResponse(list: ArrayList<Valyuta_get>) {
         rvGetValyuta=RvGetValyuta(list)
-        binding.rvValyuta.adapter=rvGetValyuta
         ayriboshlash()
     }
 

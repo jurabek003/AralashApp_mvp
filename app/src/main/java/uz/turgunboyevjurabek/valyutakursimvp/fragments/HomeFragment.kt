@@ -96,18 +96,26 @@ class HomeFragment : Fragment(),Cantrakt.View {
         showProgress()
     }
     private fun ayriboshlash(){
-        val dialog=MaterialAlertDialogBuilder(requireContext()).create()
-        val itemMDialog= ItemMDialogBinding.inflate(layoutInflater)
-        dialog.setView(itemMDialog.root)
-        binding.thtKurs1.setOnClickListener {
-            dialog.show()
+        try {
+            val dialog=MaterialAlertDialogBuilder(requireContext()).create()
+            val itemMDialog= ItemMDialogBinding.inflate(layoutInflater)
+
+            dialog.setView(itemMDialog.root)
+
+            binding.thtKurs1.setOnClickListener {
+                dialog.show()
+            }
+            binding.thtKurs2.setOnClickListener {
+                dialog.show()
+            }
+            itemMDialog.btnDialogBack.setOnClickListener {
+                dialog.cancel()
+            }
+            
+        }catch (e:IllegalStateException){
+            Toast.makeText(requireContext(), "Xatolik contextda", Toast.LENGTH_SHORT).show()
         }
-        binding.thtKurs2.setOnClickListener {
-            dialog.show()
-        }
-        itemMDialog.btnDialogBack.setOnClickListener {
-            dialog.cancel()
-        }
+      
 
     }
 }

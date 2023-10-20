@@ -28,10 +28,12 @@ class MainActivity : AppCompatActivity() {
             when(t.id){
                 1->{
                     findNavController(R.id.my_navigation_host).navigate(R.id.homekFragment)
+
                     binding.meowButtonNavigation.show(1)
                 }
                 2->{
                     findNavController(R.id.my_navigation_host).navigate(R.id.notifationFragment)
+
                     binding.meowButtonNavigation.show(2)
                 }
                 3->{
@@ -44,6 +46,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 else -> {
                     findNavController(R.id.my_navigation_host)
+
                     binding.meowButtonNavigation.show(1)
                 }
             }

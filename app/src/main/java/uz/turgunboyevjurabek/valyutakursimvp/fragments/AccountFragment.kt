@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import uz.turgunboyevjurabek.valyutakursimvp.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -56,5 +58,11 @@ class AccountFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    override fun onStop() {
+        Toast.makeText(requireContext(), "Men stop buldim", Toast.LENGTH_SHORT).show()
+        super.onStop()
+        findNavController().popBackStack()
     }
 }

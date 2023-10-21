@@ -10,11 +10,15 @@ import uz.turgunboyevjurabek.valyutakursimvp.databinding.ItemDialogRvBinding
 import uz.turgunboyevjurabek.valyutakursimvp.databinding.ItemRvBinding
 import uz.turgunboyevjurabek.valyutakursimvp.madels.Valyuta_get
 
-class RvDialog(val list: List<Valyuta_get>) : RecyclerView.Adapter<RvDialog.Vh>() {
+class RvDialog(val list: List<Valyuta_get>,val onItemClick: OnItemClick) : RecyclerView.Adapter<RvDialog.Vh>() {
     inner class Vh(val itemDialogRvBinding: ItemDialogRvBinding):ViewHolder(itemDialogRvBinding.root){
-        fun onBind(valyuta_get: Valyuta_get) {
+        fun onBind(valyuta_get: Valyuta_get,position: Int) {
          itemDialogRvBinding.name.text=valyuta_get.ccyNmUZ
             itemDialogRvBinding.tht.text=valyuta_get.ccy
+
+            itemDialogRvBinding.root.setOnClickListener{
+                onItemClick.selectItem(valyuta_get, position)
+            }
         }
 
     }
@@ -26,7 +30,9 @@ class RvDialog(val list: List<Valyuta_get>) : RecyclerView.Adapter<RvDialog.Vh>(
     override fun getItemCount(): Int = list.size
 
     override fun onBindViewHolder(holder: Vh, position: Int) {
-        holder.onBind(list[position])
+        holder.onBind(list[position],position)
     }
-
+    interface OnItemClick{
+        fun selectItem(valyuta_get: Valyuta_get,position: Int)
+    }
 }

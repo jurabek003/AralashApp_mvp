@@ -19,10 +19,12 @@ import uz.turgunboyevjurabek.valyutakursimvp.databinding.ItemMDialogBinding
 import uz.turgunboyevjurabek.valyutakursimvp.madels.Valyuta_get
 import uz.turgunboyevjurabek.valyutakursimvp.network.ApiClient
 
-class HomeFragment : Fragment(),Cantrakt.View {
+class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
     private val binding by lazy { FragmentHomeBinding.inflate(layoutInflater) }
     private lateinit var precenter: Precenter
     private lateinit var rvDialog: RvDialog
+    private var key1:Boolean=false
+    private var key2:Boolean=false
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -46,7 +48,7 @@ class HomeFragment : Fragment(),Cantrakt.View {
     }
 
     override fun successfulResponse(list: ArrayList<Valyuta_get>) {
-        rvDialog=RvDialog(list)
+        rvDialog=RvDialog(list,this)
 
         ayriboshlash(rvDialog)
     }
@@ -64,10 +66,14 @@ class HomeFragment : Fragment(),Cantrakt.View {
             dialog.setContentView(itemMDialog.root)
 
             binding.thtKurs1.setOnClickListener {
+                key1=true
+                key2=false
                 dialog.show()
             }
 
             binding.thtKurs2.setOnClickListener {
+                key2=true
+                key1=false
                 dialog.show()
             }
 
@@ -81,5 +87,13 @@ class HomeFragment : Fragment(),Cantrakt.View {
         }
       
 
+    }
+
+    override fun selectItem(valyuta_get: Valyuta_get, position: Int) {
+        if (key1){
+            binding.text1.text=valyuta_get.rate
+        }else{
+            binding.text2.text=valyuta_get.rate
+        }
     }
 }

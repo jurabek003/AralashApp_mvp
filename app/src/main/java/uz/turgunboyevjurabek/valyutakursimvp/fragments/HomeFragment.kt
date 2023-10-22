@@ -1,12 +1,18 @@
 package uz.turgunboyevjurabek.valyutakursimvp.fragments
 
+import android.graphics.Color
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.ShapeDrawable
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.graphics.drawable.toDrawable
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import uz.turgunboyevjurabek.valyutakursimvp.Cantract.Cantrakt
@@ -23,8 +29,11 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
     private val binding by lazy { FragmentHomeBinding.inflate(layoutInflater) }
     private lateinit var precenter: Precenter
     private lateinit var rvDialog: RvDialog
+    private lateinit var dialog :BottomSheetDialog
     private var key1:Boolean=false
     private var key2:Boolean=false
+    private var exchange:Boolean=false
+    private var son1:String?=null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -33,18 +42,24 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
         precenter= Precenter(this,ApiClient)
         precenter.apiSuccessOrFail()
 
+
+        binding.imgExchange.setOnClickListener {
+            if (exchange){ !exchange }else{ exchange }
+        }
         return binding.root
     }
 
     override fun showProgress() {
         binding.animationView.visibility=View.VISIBLE
         binding.constraintLayout1.visibility=View.GONE
+        binding.constraintLayout2.visibility=View.GONE
 
     }
 
     override fun hideProgress() {
         binding.animationView.visibility=View.GONE
         binding.constraintLayout1.visibility=View.VISIBLE
+        binding.constraintLayout2.visibility=View.VISIBLE
     }
 
     override fun successfulResponse(list: ArrayList<Valyuta_get>) {
@@ -59,31 +74,59 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
     }
     private fun ayriboshlash(rvDialog: RvDialog){
         try {
-            val dialog=BottomSheetDialog(requireContext())
+             dialog=BottomSheetDialog(requireContext())
             val itemMDialog= ItemMDialogBinding.inflate(layoutInflater)
             itemMDialog.rvDialog.adapter=rvDialog
 
             dialog.setContentView(itemMDialog.root)
 
-            binding.thtKurs1.setOnClickListener {
-                key1=true
-                key2=false
-                dialog.show()
+
+            if (exchange){
+                binding.thtKurs2.text="1"
+                binding.thtKursName2.text="O'zbek so'mi"
+
+                binding.thtKurs1.text=rvDialog.list[0].rate
+                binding.thtKursName1.text=rvDialog.list[0].ccyNmUZ
+
+                son1=binding.thtKurs1.text.toString()
+
+            }else{
+                binding.thtKurs1.text="1"
+                binding.thtKursName1.text="O'zbek so'mi"
+
+                binding.thtKurs2.text=rvDialog.list[0].rate
+                binding.thtKursName2.text=rvDialog.list[0].ccyNmUZ
+
+                son1=binding.thtKurs2.text.toString()
+
             }
 
-            binding.thtKurs2.setOnClickListener {
-                key2=true
-                key1=false
-                dialog.show()
-            }
+            if (!exchange){
+                binding.thtKurs1.setOnClickListener {
+                    key1=true
+                    key2=false
+                    binding.thtKurs1.setBackgroundColor(Color.GREEN)
+                    binding.thtKurs2.setBackgroundColor(Color.WHITE)
+                    dialog.show()
+                }
+            }else{
+                binding.thtKurs2.setOnClickListener {
+                    key2=true
+                    key1=false
+                    binding.thtKurs2.setBackgroundColor(Color.GREEN)
+                    binding.thtKurs1.setBackgroundColor(Color.WHITE)
 
+                    dialog.show()
+                }
+
+            }
             itemMDialog.btnDialogBack.setOnClickListener {
                 dialog.cancel()
             }
 
             
         }catch (e:IllegalStateException){
-            Toast.makeText(requireContext(), "Xatolik contextda", Toast.LENGTH_SHORT).show()
+            Log.d("LOGing","${e.message}")
         }
       
 
@@ -91,9 +134,19 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
 
     override fun selectItem(valyuta_get: Valyuta_get, position: Int) {
         if (key1){
+            binding.thtKurs1.text=valyuta_get.ccy
             binding.text1.text=valyuta_get.rate
+            binding.thtKursName1.text=valyuta_get.ccyNmUZ
+            dialog.cancel()
         }else{
+            binding.thtKurs2.text=valyuta_get.ccy
             binding.text2.text=valyuta_get.rate
+            binding.thtKursName2.text=valyuta_get.ccyNmUZ
+            dialog.cancel()
         }
     }
+    private fun setClickNumber(kurs:Boolean){
+
+    }
+
 }

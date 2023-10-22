@@ -44,8 +44,16 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
 
 
         binding.imgExchange.setOnClickListener {
-            if (exchange){ !exchange }else{ exchange }
+            if (!exchange){
+                exchange=true
+                Toast.makeText(requireContext(), "$exchange", Toast.LENGTH_SHORT).show()
+
+            }else{
+                exchange=false
+                Toast.makeText(requireContext(), "$exchange", Toast.LENGTH_SHORT).show()}
+
         }
+
         return binding.root
     }
 
@@ -77,40 +85,43 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
              dialog=BottomSheetDialog(requireContext())
             val itemMDialog= ItemMDialogBinding.inflate(layoutInflater)
             itemMDialog.rvDialog.adapter=rvDialog
-
             dialog.setContentView(itemMDialog.root)
 
 
-            if (exchange){
-                binding.thtKurs2.text="1"
+            if(exchange){
+                binding.thtKurs2.text="UZB"
+                binding.text2.text="1"
                 binding.thtKursName2.text="O'zbek so'mi"
 
-                binding.thtKurs1.text=rvDialog.list[0].rate
+                binding.thtKurs1.text=rvDialog.list[0].ccy
                 binding.thtKursName1.text=rvDialog.list[0].ccyNmUZ
-
+                binding.text1.text=rvDialog.list[0].rate
                 son1=binding.thtKurs1.text.toString()
 
             }else{
-                binding.thtKurs1.text="1"
+                binding.thtKurs1.text="UZB"
+                binding.text1.text="1"
                 binding.thtKursName1.text="O'zbek so'mi"
 
-                binding.thtKurs2.text=rvDialog.list[0].rate
+                binding.thtKurs2.text=rvDialog.list[0].ccy
                 binding.thtKursName2.text=rvDialog.list[0].ccyNmUZ
+                binding.text2.text=rvDialog.list[0].rate
 
                 son1=binding.thtKurs2.text.toString()
 
             }
-
-            if (!exchange){
-                binding.thtKurs1.setOnClickListener {
+            binding.thtKurs1.setOnClickListener {
+                if (exchange==false){
                     key1=true
                     key2=false
                     binding.thtKurs1.setBackgroundColor(Color.GREEN)
                     binding.thtKurs2.setBackgroundColor(Color.WHITE)
+
                     dialog.show()
                 }
-            }else{
-                binding.thtKurs2.setOnClickListener {
+            }
+            binding.thtKurs2.setOnClickListener {
+                if (exchange==true){
                     key2=true
                     key1=false
                     binding.thtKurs2.setBackgroundColor(Color.GREEN)
@@ -118,8 +129,8 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
 
                     dialog.show()
                 }
-
             }
+
             itemMDialog.btnDialogBack.setOnClickListener {
                 dialog.cancel()
             }

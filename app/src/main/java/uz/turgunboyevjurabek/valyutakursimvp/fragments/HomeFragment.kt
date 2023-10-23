@@ -4,6 +4,8 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.ShapeDrawable
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -33,7 +35,8 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
     private var key1:Boolean=false
     private var key2:Boolean=false
     private var exchange:Boolean=false
-    private var son1:String?=null
+    private var son1:String?=""
+    private var son2:String?=""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -96,7 +99,6 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
                 binding.thtKurs1.text=rvDialog.list[0].ccy
                 binding.thtKursName1.text=rvDialog.list[0].ccyNmUZ
                 binding.text1.text=rvDialog.list[0].rate
-                son1=binding.thtKurs1.text.toString()
 
             }else{
                 binding.thtKurs1.text="UZB"
@@ -106,8 +108,6 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
                 binding.thtKurs2.text=rvDialog.list[0].ccy
                 binding.thtKursName2.text=rvDialog.list[0].ccyNmUZ
                 binding.text2.text=rvDialog.list[0].rate
-
-                son1=binding.thtKurs2.text.toString()
 
             }
             binding.thtKurs1.setOnClickListener {
@@ -148,7 +148,9 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
             binding.thtKurs1.text=valyuta_get.ccy
             binding.text1.text=valyuta_get.rate
             binding.thtKursName1.text=valyuta_get.ccyNmUZ
+            setClickNumber(true)
             dialog.cancel()
+
         }else{
             binding.thtKurs2.text=valyuta_get.ccy
             binding.text2.text=valyuta_get.rate
@@ -156,8 +158,19 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
             dialog.cancel()
         }
     }
-    private fun setClickNumber(kurs:Boolean){
+    private fun setClickNumber(key:Boolean){
+        binding.btn0.setOnClickListener {
+            son1="0"
+            son2+=son1
+            if (key){
+                binding.text1.text="$son2"
+            }
+        }
+        binding.btn1.setOnClickListener {
+            if (key){
 
+            }
+        }
     }
 
 }

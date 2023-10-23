@@ -45,17 +45,41 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
         precenter = Precenter(this, ApiClient)
         precenter.apiSuccessOrFail()
 
-
+        // img bosilsa buladigan ishlar uchun
         binding.imgExchange.setOnClickListener {
             if (!exchange) {
                 exchange = true
                 Toast.makeText(requireContext(), "$exchange", Toast.LENGTH_SHORT).show()
 
+                var a=binding.text1.text
+                var b=binding.thtKurs1.text
+                var c=binding.thtKursName1.text
+
+                binding.thtKurs1.text = binding.thtKurs2.text
+                binding.text1.text = binding.text2.text
+                binding.thtKursName1.text = binding.thtKursName2.text
+
+                binding.text2.text =a
+                binding.thtKurs2.text = b
+                binding.thtKursName2.text = c
+
             } else {
                 exchange = false
                 Toast.makeText(requireContext(), "$exchange", Toast.LENGTH_SHORT).show()
-            }
 
+                var a=binding.text2.text
+                var b=binding.thtKurs2.text
+                var c=binding.thtKursName2.text
+
+                binding.thtKurs2.text = binding.thtKurs1.text
+                binding.text2.text = binding.text1.text
+                binding.thtKursName2.text = binding.thtKursName1.text
+
+                binding.text1.text = a
+                binding.thtKurs1.text = b
+                binding.thtKursName1.text =c
+
+            }
         }
 
         return binding.root
@@ -76,8 +100,17 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
 
     override fun successfulResponse(list: ArrayList<Valyuta_get>) {
         rvDialog = RvDialog(list, this)
-
         ayriboshlash(rvDialog)
+        // tepadagilar uchun
+        binding.text1.text=rvDialog.list[0].rate
+        binding.thtKurs1.text=rvDialog.list[0].ccy
+        binding.thtKursName1.text=rvDialog.list[0].ccyNmUZ
+
+        // pastdagilar uchun
+        binding.text2.text="1"
+        binding.thtKurs1.text="UZB"
+        binding.thtKursName1.text="O'zbek so'mi"
+
     }
 
     override fun errorResponse(tht: String) {
@@ -92,10 +125,7 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
             itemMDialog.rvDialog.adapter = rvDialog
             dialog.setContentView(itemMDialog.root)
 
-            binding.imgExchange.setOnClickListener {
-
-            }
-            if (exchange) {
+         /*   if (exchange) {
                 binding.thtKurs2.text = "UZB"
                 binding.text2.text = "1"
                 binding.thtKursName2.text = "O'zbek so'mi"
@@ -114,10 +144,11 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
                 binding.text2.text = rvDialog.list[0].rate
 
             }
+          */
+
+            // tepadagi textView ga ccy ni berish uchun dialogni ochish
             binding.thtKurs1.setOnClickListener {
-                if (exchange == false) {
                     key1 = true
-                    key2 = false
                     binding.thtKurs1.setBackgroundColor(Color.GREEN)
                     binding.thtKurs2.setBackgroundColor(Color.WHITE)
 
@@ -126,12 +157,12 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
 
 
                     dialog.show()
-                }
             }
+
+            //pastdagi textView ga ccy ni berish uchun  dialogni ochish
             binding.thtKurs2.setOnClickListener {
-                if (exchange == true) {
-                    key2 = true
                     key1 = false
+
                     binding.thtKurs2.setBackgroundColor(Color.GREEN)
                     binding.thtKurs1.setBackgroundColor(Color.WHITE)
 
@@ -139,9 +170,9 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
 //                    binding.text2.text="1"
 
                     dialog.show()
-                }
             }
 
+            // dialogni yopish uchun
             itemMDialog.btnDialogBack.setOnClickListener {
                 dialog.cancel()
             }
@@ -166,6 +197,7 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
             binding.thtKurs2.text = valyuta_get.ccy
             binding.text2.text = valyuta_get.rate
             binding.thtKursName2.text = valyuta_get.ccyNmUZ
+            setClickNumber(false)
             dialog.cancel()
         }
     }
@@ -179,19 +211,30 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
                     binding.text2.text = "$son2"
                     val abs = binding.text1.text.toString().toDouble()
                     binding.text1.text = "${abs * son2.toString().toDouble()}"
+                }else{
+                    son1 = "0"
+                    son2 += son1
+                    binding.text1.text = "$son2"
+                    val abs = binding.text2.text.toString().toDouble()
+                    binding.text2.text = "${abs * son2.toString().toDouble()}"
                 }
             }
         }
+
         binding.btn1.setOnClickListener {
-            if (key) {
                 if (key) {
                     son1 = "1"
                     son2 += son1
                     binding.text2.text = "$son2"
                     val abs = binding.text1.text.toString().toDouble()
                     binding.text1.text = "${abs * son2.toString().toDouble()}"
+                }else{
+                    son1 = "1"
+                    son2 += son1
+                    binding.text1.text = "$son2"
+                    val abs = binding.text2.text.toString().toDouble()
+                    binding.text2.text = "${abs * son2.toString().toDouble()}"
                 }
-            }
         }
 
     }

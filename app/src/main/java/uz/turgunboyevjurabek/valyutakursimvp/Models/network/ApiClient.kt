@@ -1,4 +1,4 @@
-package uz.turgunboyevjurabek.valyutakursimvp.network
+package uz.turgunboyevjurabek.valyutakursimvp.Models.network
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

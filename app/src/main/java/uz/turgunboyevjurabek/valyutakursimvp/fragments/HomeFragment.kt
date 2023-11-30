@@ -25,7 +25,7 @@ import uz.turgunboyevjurabek.valyutakursimvp.adapter.RvGetValyuta
 import uz.turgunboyevjurabek.valyutakursimvp.databinding.FragmentHomeBinding
 import uz.turgunboyevjurabek.valyutakursimvp.databinding.ItemMDialogBinding
 import uz.turgunboyevjurabek.valyutakursimvp.madels.Valyuta_get
-import uz.turgunboyevjurabek.valyutakursimvp.network.ApiClient
+import uz.turgunboyevjurabek.valyutakursimvp.Models.network.ApiClient
 
 class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
     private val binding by lazy { FragmentHomeBinding.inflate(layoutInflater) }

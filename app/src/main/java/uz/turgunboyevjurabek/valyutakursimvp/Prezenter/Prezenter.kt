@@ -6,9 +6,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import uz.turgunboyevjurabek.valyutakursimvp.Cantract.Cantrakt
 import uz.turgunboyevjurabek.valyutakursimvp.madels.Valyuta_get
-import uz.turgunboyevjurabek.valyutakursimvp.network.ApiClient
+import uz.turgunboyevjurabek.valyutakursimvp.Models.network.ApiClient
 
-class Precenter(private val mainView :Cantrakt.View,private val madel:ApiClient):Cantrakt.Presenter {
+class Precenter(private val mainView :Cantrakt.View,private val madel: ApiClient):Cantrakt.Presenter {
     override fun apiSuccessOrFail() {
         mainView.showProgress()
         Handler().postDelayed({

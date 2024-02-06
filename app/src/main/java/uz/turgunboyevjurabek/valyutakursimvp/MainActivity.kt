@@ -12,14 +12,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
-
-
+        meowButtonNavigationCreate()
     }
 
     override fun onResume() {
         super.onResume()
-        meowButtonNavigationCreate()
     }
     private fun meowButtonNavigationCreate() {
 

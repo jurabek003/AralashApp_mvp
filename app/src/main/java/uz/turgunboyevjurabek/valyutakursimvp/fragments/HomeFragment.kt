@@ -24,7 +24,7 @@ import uz.turgunboyevjurabek.valyutakursimvp.adapter.RvDialog
 import uz.turgunboyevjurabek.valyutakursimvp.adapter.RvGetValyuta
 import uz.turgunboyevjurabek.valyutakursimvp.databinding.FragmentHomeBinding
 import uz.turgunboyevjurabek.valyutakursimvp.databinding.ItemMDialogBinding
-import uz.turgunboyevjurabek.valyutakursimvp.madels.Valyuta_get
+import uz.turgunboyevjurabek.valyutakursimvp.Models.madels.Valyuta_get
 import uz.turgunboyevjurabek.valyutakursimvp.Models.network.ApiClient
 
 class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
@@ -32,8 +32,6 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
     private lateinit var precenter: Precenter
     private lateinit var rvDialog: RvDialog
     private lateinit var dialog: BottomSheetDialog
-    private var key1: Boolean = false
-    private var key2: Boolean = false
     private var exchange: Boolean = false
     private var son1: String? = ""
     private var son2: String? = ""
@@ -103,13 +101,13 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
         ayriboshlash(rvDialog)
         // tepadagilar uchun
         binding.text1.text=rvDialog.list[0].rate
-        binding.thtKurs1.text=rvDialog.list[0].ccy
-        binding.thtKursName1.text=rvDialog.list[0].ccyNmUZ
+        binding.thtKurs1.text="UZB"
+        binding.thtKursName1.text="O'zbek so'mi"
 
         // pastdagilar uchun
         binding.text2.text="1"
-        binding.thtKurs1.text="UZB"
-        binding.thtKursName1.text="O'zbek so'mi"
+        binding.thtKurs2.text="USD"
+        binding.thtKursName2.text="AQSh dollari"
 
     }
 
@@ -125,59 +123,17 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
             itemMDialog.rvDialog.adapter = rvDialog
             dialog.setContentView(itemMDialog.root)
 
-         /*   if (exchange) {
-                binding.thtKurs2.text = "UZB"
-                binding.text2.text = "1"
-                binding.thtKursName2.text = "O'zbek so'mi"
-
-                binding.thtKurs1.text = rvDialog.list[0].ccy
-                binding.thtKursName1.text = rvDialog.list[0].ccyNmUZ
-                binding.text1.text = rvDialog.list[0].rate
-
-            } else {
-                binding.thtKurs1.text = "UZB"
-                binding.text1.text = "1"
-                binding.thtKursName1.text = "O'zbek so'mi"
-
-                binding.thtKurs2.text = rvDialog.list[0].ccy
-                binding.thtKursName2.text = rvDialog.list[0].ccyNmUZ
-                binding.text2.text = rvDialog.list[0].rate
-
-            }
-          */
 
             // tepadagi textView ga ccy ni berish uchun dialogni ochish
-            binding.thtKurs1.setOnClickListener {
-                    key1 = true
-                    binding.thtKurs1.setBackgroundColor(Color.GREEN)
-                    binding.thtKurs2.setBackgroundColor(Color.WHITE)
-
-//                    binding.thtKurs1.text="SO'M"
-//                    binding.text1.text="1"
-
-
-                    dialog.show()
-            }
-
-            //pastdagi textView ga ccy ni berish uchun  dialogni ochish
             binding.thtKurs2.setOnClickListener {
-                    key1 = false
-
-                    binding.thtKurs2.setBackgroundColor(Color.GREEN)
-                    binding.thtKurs1.setBackgroundColor(Color.WHITE)
-
-//                    binding.thtKurs2.text="SO'M"
-//                    binding.text2.text="1"
-
                     dialog.show()
             }
-
             // dialogni yopish uchun
             itemMDialog.btnDialogBack.setOnClickListener {
                 dialog.cancel()
             }
 
-
+            setClickNumber()
         } catch (e: IllegalStateException) {
             Log.d("LOGing", "${e.message}")
         }
@@ -186,55 +142,36 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
     }
 
     override fun selectItem(valyuta_get: Valyuta_get, position: Int) {
-        if (key1) {
-            binding.thtKurs1.text = valyuta_get.ccy
+
+            binding.thtKurs1.text ="UZB"
             binding.text1.text = valyuta_get.rate
-            binding.thtKursName1.text = valyuta_get.ccyNmUZ
-            setClickNumber(true)
+            binding.thtKursName1.text = "O'zbek so'mi"
+
+            binding.thtKurs2.text = valyuta_get.ccy
+            binding.text2.text = "1"
+            binding.thtKursName2.text = valyuta_get.ccyNmUZ
             dialog.cancel()
 
-        } else {
-            binding.thtKurs2.text = valyuta_get.ccy
-            binding.text2.text = valyuta_get.rate
-            binding.thtKursName2.text = valyuta_get.ccyNmUZ
-            setClickNumber(false)
-            dialog.cancel()
-        }
     }
 
-    private fun setClickNumber(key: Boolean) {
+    private fun setClickNumber() {
         binding.btn0.setOnClickListener {
-            if (!son2.equals("0000000") && !son2.equals("00") && !son2.equals("0")) {
-                if (key) {
+            if (!binding.text2.text.equals("0")) {
                     son1 = "0"
                     son2 += son1
                     binding.text2.text = "$son2"
                     val abs = binding.text1.text.toString().toDouble()
                     binding.text1.text = "${abs * son2.toString().toDouble()}"
-                }else{
-                    son1 = "0"
-                    son2 += son1
-                    binding.text1.text = "$son2"
-                    val abs = binding.text2.text.toString().toDouble()
-                    binding.text2.text = "${abs * son2.toString().toDouble()}"
-                }
             }
         }
 
         binding.btn1.setOnClickListener {
-                if (key) {
                     son1 = "1"
                     son2 += son1
                     binding.text2.text = "$son2"
                     val abs = binding.text1.text.toString().toDouble()
                     binding.text1.text = "${abs * son2.toString().toDouble()}"
-                }else{
-                    son1 = "1"
-                    son2 += son1
-                    binding.text1.text = "$son2"
-                    val abs = binding.text2.text.toString().toDouble()
-                    binding.text2.text = "${abs * son2.toString().toDouble()}"
-                }
+
         }
 
     }

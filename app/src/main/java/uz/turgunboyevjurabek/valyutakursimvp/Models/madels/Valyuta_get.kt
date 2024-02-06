@@ -1,4 +1,4 @@
-package uz.turgunboyevjurabek.valyutakursimvp.madels
+package uz.turgunboyevjurabek.valyutakursimvp.Models.madels
 
 
 import com.google.gson.annotations.SerializedName

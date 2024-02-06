@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import uz.turgunboyevjurabek.valyutakursimvp.databinding.ItemRvBinding
-import uz.turgunboyevjurabek.valyutakursimvp.madels.Valyuta_get
+import uz.turgunboyevjurabek.valyutakursimvp.Models.madels.Valyuta_get
 
 class RvGetValyuta(val list: List<Valyuta_get>) :
     RecyclerView.Adapter<RvGetValyuta.Vh>() {

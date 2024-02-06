@@ -5,7 +5,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import uz.turgunboyevjurabek.valyutakursimvp.Cantract.Cantrakt
-import uz.turgunboyevjurabek.valyutakursimvp.madels.Valyuta_get
+import uz.turgunboyevjurabek.valyutakursimvp.Models.madels.Valyuta_get
 import uz.turgunboyevjurabek.valyutakursimvp.Models.network.ApiClient
 
 class Precenter(private val mainView :Cantrakt.View,private val madel: ApiClient):Cantrakt.Presenter {
@@ -20,7 +20,6 @@ class Precenter(private val mainView :Cantrakt.View,private val madel: ApiClient
                     mainView.hideProgress()
                     mainView.successfulResponse(response.body()!!)
                 }
-
                 override fun onFailure(call: Call<ArrayList<Valyuta_get>>, t: Throwable) {
                     mainView.errorResponse(t.message.toString())
                 }

@@ -61,8 +61,6 @@ class AccountFragment : Fragment() {
     }
 
     override fun onStop() {
-        Toast.makeText(requireContext(), "Men stop buldim", Toast.LENGTH_SHORT).show()
         super.onStop()
-        findNavController().popBackStack()
     }
 }

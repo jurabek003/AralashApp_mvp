@@ -127,6 +127,7 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
             // tepadagi textView ga ccy ni berish uchun dialogni ochish
             binding.thtKurs2.setOnClickListener {
                     dialog.show()
+                   son2=""
             }
             // dialogni yopish uchun
             itemMDialog.btnDialogBack.setOnClickListener {
@@ -156,7 +157,7 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
 
     private fun setClickNumber() {
         binding.btn0.setOnClickListener {
-            if (!binding.text2.text.equals("0")) {
+            if (!binding.text2.text.equals("0") || !binding.text2.text.equals("1") ) {
                     son1 = "0"
                     son2 += son1
                     binding.text2.text = "$son2"
@@ -166,7 +167,68 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
         }
 
         binding.btn1.setOnClickListener {
-                    son1 = "1"
+                son1 = "1"
+                son2 += son1
+                binding.text2.text = "$son2"
+                val abs = binding.text1.text.toString()
+                binding.text1.text = "${abs.toDouble() * son2.toString().toDouble()}"
+        }
+        binding.btn2.setOnClickListener {
+            son1 = "2"
+            son2 += son1
+            binding.text2.text = "$son2"
+            val abs = binding.text1.text.toString().toDouble()
+            binding.text1.text = "${abs * son2.toString().toDouble()}"
+        }
+        binding.btn3.setOnClickListener {
+                    son1 = "3"
+                    son2 += son1
+                    binding.text2.text = "$son2"
+                    val abs = binding.text1.text.toString().toDouble()
+                    binding.text1.text = "${abs * son2.toString().toDouble()}"
+        }
+         binding.btn4.setOnClickListener {
+                    son1 = "4"
+                    son2 += son1
+                    binding.text2.text = "$son2"
+                    val abs = binding.text1.text.toString().toDouble()
+                    binding.text1.text = "${abs * son2.toString().toDouble()}"
+
+        }
+         binding.btn5.setOnClickListener {
+                    son1 = "5"
+                    son2 += son1
+                    binding.text2.text = "$son2"
+                    val abs = binding.text1.text.toString().toDouble()
+                    binding.text1.text = "${abs * son2.toString().toDouble()}"
+
+        }
+         binding.btn6.setOnClickListener {
+                    son1 = "6"
+                    son2 += son1
+                    binding.text2.text = "$son2"
+                    val abs = binding.text1.text.toString().toDouble()
+                    binding.text1.text = "${abs * son2.toString().toDouble()}"
+
+        }
+         binding.btn7.setOnClickListener {
+                    son1 = "7"
+                    son2 += son1
+                    binding.text2.text = "$son2"
+                    val abs = binding.text1.text.toString().toDouble()
+                    binding.text1.text = "${abs * son2.toString().toDouble()}"
+
+        }
+         binding.btn8.setOnClickListener {
+                    son1 = "8"
+                    son2 += son1
+                    binding.text2.text = "$son2"
+                    val abs = binding.text1.text.toString().toDouble()
+                    binding.text1.text = "${abs * son2.toString().toDouble()}"
+
+        }
+         binding.btn9.setOnClickListener {
+                    son1 = "9"
                     son2 += son1
                     binding.text2.text = "$son2"
                     val abs = binding.text1.text.toString().toDouble()
@@ -175,4 +237,5 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
         }
 
     }
+
 }

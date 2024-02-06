@@ -17,6 +17,7 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import uz.turgunboyevjurabek.valyutakursimvp.AppObject
 import uz.turgunboyevjurabek.valyutakursimvp.Cantract.Cantrakt
 import uz.turgunboyevjurabek.valyutakursimvp.Prezenter.Precenter
 import uz.turgunboyevjurabek.valyutakursimvp.R
@@ -26,6 +27,8 @@ import uz.turgunboyevjurabek.valyutakursimvp.databinding.FragmentHomeBinding
 import uz.turgunboyevjurabek.valyutakursimvp.databinding.ItemMDialogBinding
 import uz.turgunboyevjurabek.valyutakursimvp.Models.madels.Valyuta_get
 import uz.turgunboyevjurabek.valyutakursimvp.Models.network.ApiClient
+import uz.turgunboyevjurabek.valyutakursimvp.databinding.ActivityMainBinding
+
 
 class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
     private val binding by lazy { FragmentHomeBinding.inflate(layoutInflater) }
@@ -35,6 +38,7 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
     private var exchange: Boolean = false
     private var son1: String? = ""
     private var son2: String? = ""
+    private var constNumber: Double = 0.0
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -43,46 +47,17 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
         precenter = Precenter(this, ApiClient)
         precenter.apiSuccessOrFail()
 
-        // img bosilsa buladigan ishlar uchun
-        binding.imgExchange.setOnClickListener {
-            if (!exchange) {
-                exchange = true
-                Toast.makeText(requireContext(), "$exchange", Toast.LENGTH_SHORT).show()
 
-                var a=binding.text1.text
-                var b=binding.thtKurs1.text
-                var c=binding.thtKursName1.text
-
-                binding.thtKurs1.text = binding.thtKurs2.text
-                binding.text1.text = binding.text2.text
-                binding.thtKursName1.text = binding.thtKursName2.text
-
-                binding.text2.text =a
-                binding.thtKurs2.text = b
-                binding.thtKursName2.text = c
-
-            } else {
-                exchange = false
-                Toast.makeText(requireContext(), "$exchange", Toast.LENGTH_SHORT).show()
-
-                var a=binding.text2.text
-                var b=binding.thtKurs2.text
-                var c=binding.thtKursName2.text
-
-                binding.thtKurs2.text = binding.thtKurs1.text
-                binding.text2.text = binding.text1.text
-                binding.thtKursName2.text = binding.thtKursName1.text
-
-                binding.text1.text = a
-                binding.thtKurs1.text = b
-                binding.thtKursName1.text =c
-
-            }
-        }
 
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+//     val layout =  AppObject.binding
+//        layout.layoutTht.text="Valyutalar kursi"
+//
+    }
     override fun showProgress() {
         binding.animationView.visibility = View.VISIBLE
         binding.constraintLayout1.visibility = View.GONE
@@ -100,7 +75,9 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
         rvDialog = RvDialog(list, this)
         ayriboshlash(rvDialog)
         // tepadagilar uchun
-        binding.text1.text=rvDialog.list[0].rate
+        constNumber=rvDialog.list[0].rate.toDouble()
+        val formatNumber=formatNumber(rvDialog.list[0].rate.toDouble())
+        binding.text1.text=formatNumber
         binding.thtKurs1.text="UZB"
         binding.thtKursName1.text="O'zbek so'mi"
 
@@ -143,7 +120,7 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
     }
 
     override fun selectItem(valyuta_get: Valyuta_get, position: Int) {
-
+        constNumber=valyuta_get.rate.toDouble()
             binding.thtKurs1.text ="UZB"
             binding.text1.text = valyuta_get.rate
             binding.thtKursName1.text = "O'zbek so'mi"
@@ -157,85 +134,193 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
 
     private fun setClickNumber() {
         binding.btn0.setOnClickListener {
-            if (!binding.text2.text.equals("0") || !binding.text2.text.equals("1") ) {
+            if (binding.text2.text != "0") {
                     son1 = "0"
+                if (binding.text2.text!=""){
+                    son2=binding.text2.text.toString()+son1
+                }else{
                     son2 += son1
-                    binding.text2.text = "$son2"
-                    val abs = binding.text1.text.toString().toDouble()
-                    binding.text1.text = "${abs * son2.toString().toDouble()}"
+                }
+                binding.text2.text = "$son2"
+                    val abs = unFormatNumber(constNumber.toString())
+                    binding.text1.text = formatNumber(abs * son2.toString().toDouble())
             }
-        }
 
+        }
         binding.btn1.setOnClickListener {
                 son1 = "1"
+            if (binding.text2.text!=""){
+                son2=binding.text2.text.toString()+son1
+            }else{
                 son2 += son1
+            }
                 binding.text2.text = "$son2"
-                val abs = binding.text1.text.toString()
-                binding.text1.text = "${abs.toDouble() * son2.toString().toDouble()}"
+                val abs = unFormatNumber(constNumber.toString())
+                binding.text1.text = formatNumber(abs * son2.toString().toDouble())
         }
         binding.btn2.setOnClickListener {
             son1 = "2"
-            son2 += son1
+            if (binding.text2.text!=""){
+                son2=binding.text2.text.toString()+son1
+            }else{
+                son2 += son1
+            }
             binding.text2.text = "$son2"
-            val abs = binding.text1.text.toString().toDouble()
-            binding.text1.text = "${abs * son2.toString().toDouble()}"
+            val abs = unFormatNumber(constNumber.toString())
+            binding.text1.text = formatNumber(abs * son2.toString().toDouble())
         }
         binding.btn3.setOnClickListener {
                     son1 = "3"
-                    son2 += son1
+                     if (binding.text2.text!=""){
+                son2=binding.text2.text.toString()+son1
+            }else{
+                son2 += son1
+            }
                     binding.text2.text = "$son2"
-                    val abs = binding.text1.text.toString().toDouble()
-                    binding.text1.text = "${abs * son2.toString().toDouble()}"
+                    val abs = unFormatNumber(constNumber.toString())
+                    binding.text1.text = formatNumber(abs * son2.toString().toDouble())
         }
          binding.btn4.setOnClickListener {
                     son1 = "4"
-                    son2 += son1
+                     if (binding.text2.text!=""){
+                son2=binding.text2.text.toString()+son1
+            }else{
+                son2 += son1
+            }
                     binding.text2.text = "$son2"
-                    val abs = binding.text1.text.toString().toDouble()
-                    binding.text1.text = "${abs * son2.toString().toDouble()}"
+                    val abs = unFormatNumber(constNumber.toString())
+                    binding.text1.text = formatNumber(abs * son2.toString().toDouble())
 
         }
          binding.btn5.setOnClickListener {
                     son1 = "5"
-                    son2 += son1
+                     if (binding.text2.text!=""){
+                son2=binding.text2.text.toString()+son1
+            }else{
+                son2 += son1
+            }
                     binding.text2.text = "$son2"
-                    val abs = binding.text1.text.toString().toDouble()
-                    binding.text1.text = "${abs * son2.toString().toDouble()}"
+                    val abs = unFormatNumber(constNumber.toString())
+                    binding.text1.text = formatNumber(abs * son2.toString().toDouble())
 
         }
          binding.btn6.setOnClickListener {
                     son1 = "6"
-                    son2 += son1
+                     if (binding.text2.text!=""){
+                son2=binding.text2.text.toString()+son1
+            }else{
+                son2 += son1
+            }
                     binding.text2.text = "$son2"
-                    val abs = binding.text1.text.toString().toDouble()
-                    binding.text1.text = "${abs * son2.toString().toDouble()}"
+                    val abs = unFormatNumber(constNumber.toString())
+                    binding.text1.text = formatNumber(abs * son2.toString().toDouble())
 
         }
          binding.btn7.setOnClickListener {
                     son1 = "7"
-                    son2 += son1
+                     if (binding.text2.text!=""){
+                son2=binding.text2.text.toString()+son1
+            }else{
+                son2 += son1
+            }
                     binding.text2.text = "$son2"
-                    val abs = binding.text1.text.toString().toDouble()
-                    binding.text1.text = "${abs * son2.toString().toDouble()}"
+                    val abs = unFormatNumber(constNumber.toString())
+                    binding.text1.text = formatNumber(abs * son2.toString().toDouble())
 
         }
          binding.btn8.setOnClickListener {
                     son1 = "8"
-                    son2 += son1
+                     if (binding.text2.text!=""){
+                son2=binding.text2.text.toString()+son1
+            }else{
+                son2 += son1
+            }
                     binding.text2.text = "$son2"
-                    val abs = binding.text1.text.toString().toDouble()
-                    binding.text1.text = "${abs * son2.toString().toDouble()}"
+                    val abs = unFormatNumber(constNumber.toString())
+                    binding.text1.text = formatNumber(abs * son2.toString().toDouble())
 
         }
          binding.btn9.setOnClickListener {
                     son1 = "9"
-                    son2 += son1
+                     if (binding.text2.text!=""){
+                son2=binding.text2.text.toString()+son1
+            }else{
+                son2 += son1
+            }
                     binding.text2.text = "$son2"
-                    val abs = binding.text1.text.toString().toDouble()
-                    binding.text1.text = "${abs * son2.toString().toDouble()}"
-
+                    val abs = unFormatNumber(constNumber.toString())
+                    binding.text1.text = formatNumber(abs * son2.toString().toDouble())
+        }
+        binding.btnWest.setOnClickListener {
+            try {
+                if (!binding.text2.text.isNullOrEmpty()){
+                    son2=binding.text2.text.substring(0 until binding.text2.text.lastIndex)
+                    binding.text2.text = "$son2"
+                    val abs = unFormatNumber(constNumber.toString())
+                    binding.text1.text = formatNumber(abs * son2.toString().toDouble())
+                }else{
+                    Toast.makeText(requireContext(), "Oldin son kiriting", Toast.LENGTH_SHORT).show()
+                }
+            }catch (e:Exception){
+                binding.text2.text=""
+                binding.text1.text=""
+            }
         }
 
     }
+
+
+    private fun formatNumber(number: Double): String {
+        val formattedNumber = if (number.toLong() in 100..9999999999) {
+            val formattedString = String.format("%,d", number.toLong())
+            formattedString.replace(",", " ") // Vergulni bo'shatish
+        }else{
+            number.toString()
+        }
+        return formattedNumber
+    }
+    private fun unFormatNumber(string: String): Double {
+        val cleanedString: String = string
+            .replace("\u00A0", "") // Bo'shliklarni olib tashlash (ASCII kodi: \u00A0)
+        return cleanedString.toDouble()
+    }
+    // img bosilsa buladigan ishlar uchun
+    /*  binding.imgExchange.setOnClickListener {
+        if (!exchange) {
+            exchange = true
+            Toast.makeText(requireContext(), "$exchange", Toast.LENGTH_SHORT).show()
+
+            var a=binding.text1.text
+            var b=binding.thtKurs1.text
+            var c=binding.thtKursName1.text
+
+            binding.thtKurs1.text = binding.thtKurs2.text
+            binding.text1.text = binding.text2.text
+            binding.thtKursName1.text = binding.thtKursName2.text
+
+            binding.text2.text =a
+            binding.thtKurs2.text = b
+            binding.thtKursName2.text = c
+
+        } else {
+            exchange = false
+            Toast.makeText(requireContext(), "$exchange", Toast.LENGTH_SHORT).show()
+
+            var a=binding.text2.text
+            var b=binding.thtKurs2.text
+            var c=binding.thtKursName2.text
+
+            binding.thtKurs2.text = binding.thtKurs1.text
+            binding.text2.text = binding.text1.text
+            binding.thtKursName2.text = binding.thtKursName1.text
+
+            binding.text1.text = a
+            binding.thtKurs1.text = b
+            binding.thtKursName1.text =c
+
+        }
+
+   */
+
 
 }

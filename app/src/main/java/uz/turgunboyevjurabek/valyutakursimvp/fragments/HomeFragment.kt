@@ -54,9 +54,7 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
 
     override fun onResume() {
         super.onResume()
-//     val layout =  AppObject.binding
-//        layout.layoutTht.text="Valyutalar kursi"
-//
+        AppObject.binding.layoutTht.text="Valyutalar kursi"
     }
     override fun showProgress() {
         binding.animationView.visibility = View.VISIBLE

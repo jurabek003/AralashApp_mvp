@@ -23,7 +23,7 @@
     </fragment>
     <fragment
         android:id="@+id/accountFragment"
-        android:name="uz.turgunboyevjurabek.valyutakursimvp.fragments.AccountFragment"
+        android:name="uz.turgunboyevjurabek.valyutakursimvp.fragments.NoteFragment"
         android:label="fragment_account"
         tools:layout="@layout/fragment_account" >
 

@@ -13,16 +13,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         meowButtonNavigationCreate()
+        AppObject.binding = binding
+        AppObject.fragmentManager = supportFragmentManager
     }
 
     override fun onResume() {
         super.onResume()
     }
     private fun meowButtonNavigationCreate() {
-
+        val navController = findNavController(R.id.my_navigation_host)
         binding.meowButtonNavigation.add(MeowBottomNavigation.Model(1,R.drawable.ic_home))
         binding.meowButtonNavigation.add(MeowBottomNavigation.Model(2,R.drawable.ic_notification))
-        binding.meowButtonNavigation.add(MeowBottomNavigation.Model(3,R.drawable.ic_account))
+        binding.meowButtonNavigation.add(MeowBottomNavigation.Model(3,R.drawable.ic_note))
         binding.meowButtonNavigation.add(MeowBottomNavigation.Model(4,R.drawable.ic_info))
 
         binding.meowButtonNavigation.show(1)
@@ -31,23 +33,28 @@ class MainActivity : AppCompatActivity() {
         binding.meowButtonNavigation.setOnClickMenuListener { t->
             when(t.id){
                 1->{
-                    findNavController(R.id.my_navigation_host).navigate(R.id.homekFragment)
+                    navController.popBackStack()
+                    navController.navigate(R.id.homekFragment)
                     binding.meowButtonNavigation.show(1)
                 }
                 2->{
-                    findNavController(R.id.my_navigation_host).navigate(R.id.notifationFragment)
+                    navController.popBackStack()
+                    navController.navigate(R.id.notifationFragment)
                     binding.meowButtonNavigation.show(2)
                 }
                 3->{
-                    findNavController(R.id.my_navigation_host).navigate(R.id.accountFragment)
+                    navController.popBackStack()
+                    navController.navigate(R.id.accountFragment)
                     binding.meowButtonNavigation.show(3)
                 }
                 4->{
-                    findNavController(R.id.my_navigation_host).navigate(R.id.infoFragment)
+                    navController.popBackStack()
+                    navController.navigate(R.id.infoFragment)
                     binding.meowButtonNavigation.show(4)
                 }
                 else -> {
-                    findNavController(R.id.my_navigation_host)
+                    navController.popBackStack()
+                    navController.navigate(R.id.homekFragment)
                     binding.meowButtonNavigation.show(1)
                 }
             }

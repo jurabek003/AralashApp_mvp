@@ -3,6 +3,7 @@
     <style name="Base.Theme.ValyutaKursiMVP" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
          <item name="colorPrimary">@color/mainColor</item>
+        <item name="background">@color/white</item>
     </style>
 
     <style name="Theme.ValyutaKursiMVP" parent="Base.Theme.ValyutaKursiMVP" />

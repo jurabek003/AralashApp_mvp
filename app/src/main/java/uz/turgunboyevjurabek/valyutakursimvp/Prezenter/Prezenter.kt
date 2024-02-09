@@ -11,7 +11,7 @@ import uz.turgunboyevjurabek.valyutakursimvp.Models.network.ApiClient
 class Precenter(private val mainView :Cantrakt.View,private val madel: ApiClient):Cantrakt.Presenter {
     override fun apiSuccessOrFail() {
         mainView.showProgress()
-        Handler().postDelayed({
+
             madel.getApiServis().getValyuta().enqueue(object :Callback<ArrayList<Valyuta_get>>{
                 override fun onResponse(
                     call: Call<ArrayList<Valyuta_get>>,
@@ -24,7 +24,7 @@ class Precenter(private val mainView :Cantrakt.View,private val madel: ApiClient
                     mainView.errorResponse(t.message.toString())
                 }
             })
-        },1000)
+
 
     }
 

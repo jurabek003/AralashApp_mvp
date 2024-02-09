@@ -13,5 +13,5 @@ dependencyResolutionManagement {
         jcenter()
     }
 }
-rootProject.name = "Valyuta Kursi MVP"
+rootProject.name = "AralashApp_mvp"
 include ':app'

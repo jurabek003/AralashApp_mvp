@@ -23,7 +23,6 @@
        android:id="@+id/constraint_layout_1"
        android:layout_width="match_parent"
        android:layout_height="0dp"
-       android:backgroundTint="@color/white"
        app:layout_constraintHeight_percent=".4"
        app:cardCornerRadius="20dp"
        app:strokeWidth="0dp"
@@ -131,7 +130,7 @@
     android:id="@+id/constraint_layout_2"
     android:layout_width="match_parent"
     android:layout_height="0dp"
-    android:backgroundTint="@color/white"
+
     app:layout_constraintHeight_percent=".45"
     app:layout_constraintBottom_toBottomOf="parent"
     android:layout_margin="15dp"
@@ -149,14 +148,12 @@
             android:orientation="horizontal"
             android:gravity="center"
             android:layout_height="wrap_content">
-           <com.google.android.material.button.MaterialButton
+           <Button
                android:id="@+id/btn_1"
                android:layout_width="80dp"
                android:layout_height="wrap_content"
-               android:backgroundTint="@color/white"
                android:text="1"
                android:textStyle="bold"
-               android:textColor="#D50000"
                android:paddingVertical="20dp"
                app:strokeWidth="1dp"
                android:textSize="18sp"
@@ -165,31 +162,29 @@
                android:layout_marginHorizontal="10dp"
                app:strokeColor="#00B8D4"
                android:layout_weight="1"/>
-            <com.google.android.material.button.MaterialButton
+            <Button
                 android:id="@+id/btn_2"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
+
                 android:text="2"
                 android:textStyle="bold"
                 app:rippleColor="#D50000"
                 android:paddingVertical="20dp"
-                android:textColor="#D50000"
                 app:strokeWidth="1dp"
                 android:textSize="18sp"
                 android:layout_marginHorizontal="10dp"
                 app:strokeColor="#00B8D4"
                 android:layout_weight="1"/>
-            <com.google.android.material.button.MaterialButton
+            <Button
                 android:id="@+id/btn_3"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
+
                 android:text="3"
                 android:paddingVertical="20dp"
                 android:textStyle="bold"
                 app:rippleColor="#D50000"
-                android:textColor="#D50000"
                 app:strokeWidth="1dp"
                 android:textSize="18sp"
                 android:layout_marginHorizontal="10dp"
@@ -201,15 +196,14 @@
             android:orientation="horizontal"
             android:gravity="center"
             android:layout_height="wrap_content">
-           <com.google.android.material.button.MaterialButton
+           <Button
                android:id="@+id/btn_4"
                android:layout_width="80dp"
                android:layout_height="wrap_content"
-               android:backgroundTint="@color/white"
+
                android:text="4"
                android:textStyle="bold"
                app:rippleColor="#D50000"
-               android:textColor="#D50000"
                android:paddingVertical="20dp"
                app:strokeWidth="1dp"
                android:textSize="18sp"
@@ -217,31 +211,29 @@
                android:layout_marginHorizontal="10dp"
                app:strokeColor="#00B8D4"
                android:layout_weight="1"/>
-            <com.google.android.material.button.MaterialButton
+            <Button
                 android:id="@+id/btn_5"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
+
                 android:text="5"
                 android:textStyle="bold"
                 app:rippleColor="#D50000"
                 android:paddingVertical="20dp"
-                android:textColor="#D50000"
                 app:strokeWidth="1dp"
                 android:textSize="18sp"
                 android:layout_marginHorizontal="10dp"
                 app:strokeColor="#00B8D4"
                 android:layout_weight="1"/>
-            <com.google.android.material.button.MaterialButton
+            <Button
                 android:id="@+id/btn_6"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
+
                 android:text="6"
                 android:paddingVertical="20dp"
                 android:textStyle="bold"
                 app:rippleColor="#D50000"
-                android:textColor="#D50000"
                 app:strokeWidth="1dp"
                 android:textSize="18sp"
                 android:layout_marginHorizontal="10dp"
@@ -253,15 +245,14 @@
             android:orientation="horizontal"
             android:gravity="center"
             android:layout_height="wrap_content">
-           <com.google.android.material.button.MaterialButton
+           <Button
                android:id="@+id/btn_7"
                android:layout_width="80dp"
                android:layout_height="wrap_content"
-               android:backgroundTint="@color/white"
+
                android:text="7"
                android:textStyle="bold"
                app:rippleColor="#D50000"
-               android:textColor="#D50000"
                android:paddingVertical="20dp"
                app:strokeWidth="1dp"
                android:textSize="18sp"
@@ -269,31 +260,29 @@
                android:layout_marginHorizontal="10dp"
                app:strokeColor="#00B8D4"
                android:layout_weight="1"/>
-            <com.google.android.material.button.MaterialButton
+            <Button
                 android:id="@+id/btn_8"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
+
                 android:text="8"
                 android:textStyle="bold"
                 app:rippleColor="#D50000"
                 android:paddingVertical="20dp"
-                android:textColor="#D50000"
                 app:strokeWidth="1dp"
                 android:textSize="18sp"
                 android:layout_marginHorizontal="10dp"
                 app:strokeColor="#00B8D4"
                 android:layout_weight="1"/>
-            <com.google.android.material.button.MaterialButton
+            <Button
                 android:id="@+id/btn_9"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
+
                 android:text="9"
                 android:paddingVertical="20dp"
                 android:textStyle="bold"
                 app:rippleColor="#D50000"
-                android:textColor="#D50000"
                 app:strokeWidth="1dp"
                 android:textSize="18sp"
                 android:layout_marginHorizontal="10dp"
@@ -305,15 +294,14 @@
             android:orientation="horizontal"
             android:gravity="center"
             android:layout_height="wrap_content">
-           <com.google.android.material.button.MaterialButton
+           <Button
                android:id="@+id/btn_nuqta"
                android:layout_width="80dp"
                android:layout_height="wrap_content"
-               android:backgroundTint="@color/white"
+
                android:text="."
                android:textStyle="bold"
                app:rippleColor="#D50000"
-               android:textColor="#D50000"
                android:paddingVertical="20dp"
                app:strokeWidth="1dp"
                android:textSize="18sp"
@@ -321,34 +309,31 @@
                android:layout_marginHorizontal="10dp"
                app:strokeColor="#00B8D4"
                android:layout_weight="1"/>
-            <com.google.android.material.button.MaterialButton
+            <Button
                 android:id="@+id/btn_0"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
+
                 android:text="0"
                 android:textStyle="bold"
                 app:rippleColor="#D50000"
                 android:paddingVertical="20dp"
-                android:textColor="#D50000"
                 app:strokeWidth="1dp"
                 android:textSize="18sp"
                 android:layout_marginHorizontal="10dp"
                 app:strokeColor="#00B8D4"
                 android:layout_weight="1"/>
- <com.google.android.material.button.MaterialButton
+
+            <Button
      android:id="@+id/btn_west"
      android:layout_width="80dp"
      android:layout_height="wrap_content"
-     android:backgroundTint="@color/white"
      app:icon="@drawable/ic_west"
      android:textStyle="bold"
      app:rippleColor="#D50000"
-     app:iconTint="#D50000"
      app:iconGravity="textEnd"
      app:iconSize="22dp"
      android:paddingVertical="20dp"
-     android:textColor="#D50000"
      app:strokeWidth="1dp"
      android:textSize="18sp"
      android:layout_marginHorizontal="10dp"

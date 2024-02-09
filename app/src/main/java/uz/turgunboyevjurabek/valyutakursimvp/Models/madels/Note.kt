@@ -1,5 +1,6 @@
 package uz.turgunboyevjurabek.valyutakursimvp.Models.madels
 
+import android.annotation.SuppressLint
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -17,6 +18,9 @@ import java.util.Locale
     var time: String? = SimpleDateFormat("HH:mm").format(Date())
     @ColumnInfo(name = "date")
     var date: String? = SimpleDateFormat("EEEE", Locale.getDefault()).format(Date())
+    @SuppressLint("SimpleDateFormat")
+    @ColumnInfo(name = "day")
+    var day: String? = SimpleDateFormat("dd.MM.yyyy").format(Date())
 
     constructor(noteText: String?) {
         this.noteText = noteText

@@ -1,6 +1,7 @@
 package uz.turgunboyevjurabek.valyutakursimvp.fragments
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.icu.text.Transliterator.Position
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import uz.turgunboyevjurabek.valyutakursimvp.AppObject
@@ -24,25 +26,24 @@ class NoteFragment : Fragment() {
     private lateinit var rvAdapterNote: RvAdapterNote
     var isAllFabsVisible: Boolean = false
     private lateinit var dialog:MaterialAlertDialogBuilder
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        dialog=MaterialAlertDialogBuilder(requireContext())
-            .setCancelable(false)
-            .setView(dialogAddNoteBinding.root)
-
-        binding.floatingActionButton1.setOnClickListener {
-            dialog.show()
-        }
-        dialogAddNoteBinding.btnCloseDialog.setOnClickListener {
-            dialog.create().cancel()
-        }
-
-
-    }
+    private lateinit var customDialog:AlertDialog
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
+        dialog=MaterialAlertDialogBuilder(requireContext())
+            .setCancelable(false)
+            .setView(dialogAddNoteBinding.root)
+
+        customDialog=dialog.create()
+        binding.floatingActionButton1.setOnClickListener {
+            customDialog.show()
+        }
+        dialogAddNoteBinding.btnCloseDialog.setOnClickListener {
+            customDialog.dismiss()
+        }
+
+
         isAllFabsVisible=false
 
 
@@ -110,7 +111,7 @@ class NoteFragment : Fragment() {
             database.insertNote(note)
             rvAdapterNote.list.add(note)
             rvAdapterNote.notifyItemInserted(rvAdapterNote.list.lastIndex)
-            dialog.create().cancel()
+            customDialog.dismiss()
         }
 
 

@@ -26,4 +26,17 @@ interface NoteDao {
      */
     @Delete
     fun deleteNote(note: Note)
+
+    /**
+     * Qidirish
+     */
+    @Query("select *from Note where note_text like '%' || :searchQuery || '%' or uid like '%'||:searchQuery ")
+    fun searchNote(searchQuery :String?):List<Note>
+
+    /**
+     * O'chirish uchun
+     */
+    @Delete
+    fun deleteNotes(notes:ArrayList<Note>)
+
 }

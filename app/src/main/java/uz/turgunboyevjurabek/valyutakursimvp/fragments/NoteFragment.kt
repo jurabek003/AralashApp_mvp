@@ -2,7 +2,9 @@ package uz.turgunboyevjurabek.valyutakursimvp.fragments
 
 import android.annotation.SuppressLint
 import android.content.DialogInterface
+import android.graphics.drawable.Drawable
 import android.icu.text.Transliterator.Position
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -29,7 +31,8 @@ class NoteFragment : Fragment(),RvAdapterNote.ItemClick {
     private val database by lazy { NoteDataBase.newInstens(requireContext()).noteDao() }
     private val rvAdapterNote by lazy { RvAdapterNote(this) }
     private val itemNoteRvBinding by lazy { ItemNoteRvBinding.inflate(layoutInflater) }
-
+    private var isShowing:Boolean=true
+    private var removePosition=ArrayList<Int>()
     var isAllFabsVisible: Boolean = false
     private lateinit var dialog:MaterialAlertDialogBuilder
     private lateinit var customDialog:AlertDialog
@@ -160,26 +163,55 @@ class NoteFragment : Fragment(),RvAdapterNote.ItemClick {
 
     override fun itemDelete(note: Note, position: Int) {
 
-        itemNoteRvBinding.itemNoteCheckBox.visibility=View.VISIBLE
-
-        if (note.isChecked){
-            list.add(note)
+        isShowing = if (isShowing) {
+            for (i in 0 until rvAdapterNote.list.count()) {
+                val viewHolder =
+                    binding.rvNote.findViewHolderForAdapterPosition(i) as? RvAdapterNote.Vh
+                viewHolder?.setCheckBoxesVisibility(View.VISIBLE)
+            }
+            false
+        } else {
+            for (i in 0 until rvAdapterNote.list.count()) {
+                val viewHolder =
+                    binding.rvNote.findViewHolderForAdapterPosition(i) as? RvAdapterNote.Vh
+                viewHolder?.setCheckBoxesVisibility(View.GONE)
+                AppObject.binding.actionDelete.visibility=View.GONE
+            }
+            true
         }
 
-        AppObject.binding.actionDelete.visibility=View.VISIBLE
+
+        AppObject.binding.actionDelete.visibility = View.VISIBLE
+
+        }
+
+    override fun selectItem(note: Note, position: Int) {
+        if (note.isChecked) {
+            removePosition.add(position)
+            list.add(note)
+        }
+        Toast.makeText(requireContext(), list.size.toString(), Toast.LENGTH_SHORT).show()
+
         AppObject.binding.actionDelete.setOnClickListener {
 
-            val dialog=AlertDialog.Builder(requireContext())
+            val dialog = AlertDialog.Builder(requireContext())
                 .setIcon(R.drawable.ic_info)
                 .setTitle("O'chirish")
                 .setMessage("Ushbu note larni rostanham o'chirmoqchimisz!")
                 .setPositiveButton("ha") { dialog, which ->
                     database.deleteNotes(list)
-                    getAllNoteInRv()
+                    rvAdapterNote.notifyItemRangeRemoved(removePosition[0],removePosition.lastIndex)
+//                        val newData=ArrayList<Note>()
+//                        newData.addAll(database.getAllNote())
+//                        rvAdapterNote.updateDate(newData)
+//
+
+
                     dialog.dismiss()
-                    AppObject.binding.actionDelete.visibility=View.GONE
+                    AppObject.binding.actionDelete.visibility = View.GONE
+                    list.clear()
                 }
-                .setNegativeButton("Yo'q"){dialog,which->
+                .setNegativeButton("Yo'q") { dialog, which ->
                     dialog.dismiss()
                 }
                 .show()
@@ -189,3 +221,4 @@ class NoteFragment : Fragment(),RvAdapterNote.ItemClick {
 
     }
 }
+

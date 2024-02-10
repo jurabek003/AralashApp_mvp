@@ -20,15 +20,20 @@ import uz.turgunboyevjurabek.valyutakursimvp.R
 import uz.turgunboyevjurabek.valyutakursimvp.adapter.RvAdapterNote
 import uz.turgunboyevjurabek.valyutakursimvp.databinding.DialogAddNoteBinding
 import uz.turgunboyevjurabek.valyutakursimvp.databinding.FragmentNoteBinding
+import uz.turgunboyevjurabek.valyutakursimvp.databinding.ItemNoteRvBinding
 
-class NoteFragment : Fragment() {
+class NoteFragment : Fragment(),RvAdapterNote.ItemClick {
+
     private val binding by lazy { FragmentNoteBinding.inflate(layoutInflater) }
     private val dialogAddNoteBinding by lazy { DialogAddNoteBinding.inflate(layoutInflater) }
-    private lateinit var rvAdapterNote: RvAdapterNote
+    private val database by lazy { NoteDataBase.newInstens(requireContext()).noteDao() }
+    private val rvAdapterNote by lazy { RvAdapterNote(this) }
+    private val itemNoteRvBinding by lazy { ItemNoteRvBinding.inflate(layoutInflater) }
+
     var isAllFabsVisible: Boolean = false
     private lateinit var dialog:MaterialAlertDialogBuilder
     private lateinit var customDialog:AlertDialog
-    private val database by lazy { NoteDataBase.newInstens(requireContext()).noteDao() }
+    private  var list=ArrayList<Note>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -93,20 +98,21 @@ class NoteFragment : Fragment() {
             })
             addNoteItem()
             searchNote()
+            val itemNoteRvBinding=ItemNoteRvBinding.inflate(layoutInflater)
 
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private fun addNoteItem(){
-
         getAllNoteInRv()
+
         dialogAddNoteBinding.btnSaveDialog.setOnClickListener {
             val textNote=dialogAddNoteBinding.extractEditText.text.toString()
             val note=Note(textNote)
             database.insertNote(note)
-            rvAdapterNote.list.add(note)
-            rvAdapterNote.notifyItemInserted(rvAdapterNote.list.lastIndex)
+            getAllNoteInRv()
             customDialog.dismiss()
+
         }
     }
     private fun searchNote(){
@@ -144,11 +150,42 @@ class NoteFragment : Fragment() {
         if (database.getAllNote().isNotEmpty()){
             val list=ArrayList<Note>()
             list.addAll(database.getAllNote())
-            rvAdapterNote=RvAdapterNote(list)
+            rvAdapterNote.updateDate(list)
             binding.rvNote.adapter=rvAdapterNote
             rvAdapterNote.notifyDataSetChanged()
         }else{
             Toast.makeText(requireContext(), "LocalData empty :(", Toast.LENGTH_SHORT).show()
         }
     }
+
+    override fun itemDelete(note: Note, position: Int) {
+
+        itemNoteRvBinding.itemNoteCheckBox.visibility=View.VISIBLE
+
+        if (note.isChecked){
+            list.add(note)
+        }
+
+        AppObject.binding.actionDelete.visibility=View.VISIBLE
+        AppObject.binding.actionDelete.setOnClickListener {
+
+            val dialog=AlertDialog.Builder(requireContext())
+                .setIcon(R.drawable.ic_info)
+                .setTitle("O'chirish")
+                .setMessage("Ushbu note larni rostanham o'chirmoqchimisz!")
+                .setPositiveButton("ha") { dialog, which ->
+                    database.deleteNotes(list)
+                    getAllNoteInRv()
+                    dialog.dismiss()
+                    AppObject.binding.actionDelete.visibility=View.GONE
+                }
+                .setNegativeButton("Yo'q"){dialog,which->
+                    dialog.dismiss()
+                }
+                .show()
+
+        }
+
+
     }
+}

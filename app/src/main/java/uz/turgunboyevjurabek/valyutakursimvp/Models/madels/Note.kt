@@ -21,6 +21,8 @@ import java.util.Locale
     @SuppressLint("SimpleDateFormat")
     @ColumnInfo(name = "day")
     var day: String? = SimpleDateFormat("dd.MM.yyyy").format(Date())
+    @ColumnInfo(name = "isChecked")
+    var isChecked: Boolean =false
 
     constructor(noteText: String?) {
         this.noteText = noteText

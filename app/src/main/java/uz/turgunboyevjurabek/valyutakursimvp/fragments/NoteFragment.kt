@@ -2,6 +2,7 @@ package uz.turgunboyevjurabek.valyutakursimvp.fragments
 
 import android.annotation.SuppressLint
 import android.content.DialogInterface
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.icu.text.Transliterator.Position
 import android.os.Build
@@ -15,6 +16,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import uz.turgunboyevjurabek.valyutakursimvp.AppObject
 import uz.turgunboyevjurabek.valyutakursimvp.Models.localData.NoteDataBase
 import uz.turgunboyevjurabek.valyutakursimvp.Models.madels.Note
@@ -24,6 +26,7 @@ import uz.turgunboyevjurabek.valyutakursimvp.databinding.DialogAddNoteBinding
 import uz.turgunboyevjurabek.valyutakursimvp.databinding.FragmentNoteBinding
 import uz.turgunboyevjurabek.valyutakursimvp.databinding.ItemNoteRvBinding
 
+
 class NoteFragment : Fragment(),RvAdapterNote.ItemClick {
 
     private val binding by lazy { FragmentNoteBinding.inflate(layoutInflater) }
@@ -32,7 +35,6 @@ class NoteFragment : Fragment(),RvAdapterNote.ItemClick {
     private val rvAdapterNote by lazy { RvAdapterNote(this) }
     private val itemNoteRvBinding by lazy { ItemNoteRvBinding.inflate(layoutInflater) }
     private var isShowing:Boolean=true
-    private var removePosition=ArrayList<Int>()
     var isAllFabsVisible: Boolean = false
     private lateinit var dialog:MaterialAlertDialogBuilder
     private lateinit var customDialog:AlertDialog
@@ -42,6 +44,18 @@ class NoteFragment : Fragment(),RvAdapterNote.ItemClick {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
+
+        isAllFabsVisible=false
+        binding.floatingActionButton1.visibility=View.GONE
+        binding.floatingActionButton2.visibility=View.GONE
+
+        binding.extFltBtn.shrink()
+
+
+        return binding.root
+    }
+
+    private fun dialogBuild() {
         dialog=MaterialAlertDialogBuilder(requireContext())
             .setCancelable(false)
             .setView(dialogAddNoteBinding.root)
@@ -53,20 +67,8 @@ class NoteFragment : Fragment(),RvAdapterNote.ItemClick {
         dialogAddNoteBinding.btnCloseDialog.setOnClickListener {
             customDialog.dismiss()
         }
-
-
-        isAllFabsVisible=false
-
-
-
-        binding.floatingActionButton1.visibility=View.GONE
-        binding.floatingActionButton2.visibility=View.GONE
-
-
-        binding.extFltBtn.shrink()
-
-        return binding.root
     }
+
     private fun fabFun() {
         binding.extFltBtn.setOnClickListener{
 
@@ -88,21 +90,28 @@ class NoteFragment : Fragment(),RvAdapterNote.ItemClick {
         override fun onResume() {
         super.onResume()
         AppObject.binding.layoutTht.text="Qaydnomalar"
-        fabFun()
-            binding.rvNote.addOnScrollListener(object :RecyclerView.OnScrollListener(){
-                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                    super.onScrollStateChanged(recyclerView, newState)
-                    if (newState == RecyclerView.SCREEN_STATE_ON) {
-                        binding.extFltBtn.shrink()
-                        binding.floatingActionButton1.visibility=View.GONE
-                        binding.floatingActionButton2.visibility=View.GONE
-                    }
-                }
-            })
+
+            fabFun()
+            rvScrolListner()
+            dialogBuild()
             addNoteItem()
             searchNote()
-            val itemNoteRvBinding=ItemNoteRvBinding.inflate(layoutInflater)
+            noteDelete()
 
+
+    }
+
+    private fun rvScrolListner() {
+        binding.rvNote.addOnScrollListener(object :RecyclerView.OnScrollListener(){
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (newState == RecyclerView.SCREEN_STATE_ON) {
+                    binding.extFltBtn.shrink()
+                    binding.floatingActionButton1.visibility=View.GONE
+                    binding.floatingActionButton2.visibility=View.GONE
+                }
+            }
+        })
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -160,65 +169,69 @@ class NoteFragment : Fragment(),RvAdapterNote.ItemClick {
             Toast.makeText(requireContext(), "LocalData empty :(", Toast.LENGTH_SHORT).show()
         }
     }
-
     override fun itemDelete(note: Note, position: Int) {
-
-        isShowing = if (isShowing) {
-            for (i in 0 until rvAdapterNote.list.count()) {
-                val viewHolder =
-                    binding.rvNote.findViewHolderForAdapterPosition(i) as? RvAdapterNote.Vh
-                viewHolder?.setCheckBoxesVisibility(View.VISIBLE)
-            }
-            false
-        } else {
-            for (i in 0 until rvAdapterNote.list.count()) {
-                val viewHolder =
-                    binding.rvNote.findViewHolderForAdapterPosition(i) as? RvAdapterNote.Vh
-                viewHolder?.setCheckBoxesVisibility(View.GONE)
-                AppObject.binding.actionDelete.visibility=View.GONE
-            }
-            true
-        }
-
-
-        AppObject.binding.actionDelete.visibility = View.VISIBLE
-
-        }
-
-    override fun selectItem(note: Note, position: Int) {
         if (note.isChecked) {
-            removePosition.add(position)
             list.add(note)
         }
         Toast.makeText(requireContext(), list.size.toString(), Toast.LENGTH_SHORT).show()
+    }
 
-        AppObject.binding.actionDelete.setOnClickListener {
-
-            val dialog = AlertDialog.Builder(requireContext())
-                .setIcon(R.drawable.ic_info)
-                .setTitle("O'chirish")
-                .setMessage("Ushbu note larni rostanham o'chirmoqchimisz!")
-                .setPositiveButton("ha") { dialog, which ->
-                    database.deleteNotes(list)
-                    rvAdapterNote.notifyItemRangeRemoved(removePosition[0],removePosition.lastIndex)
-//                        val newData=ArrayList<Note>()
-//                        newData.addAll(database.getAllNote())
-//                        rvAdapterNote.updateDate(newData)
-//
-
-
-                    dialog.dismiss()
-                    AppObject.binding.actionDelete.visibility = View.GONE
-                    list.clear()
+    private fun noteDelete(){
+        binding.floatingActionButton2.setOnClickListener {
+            if (list.isNotEmpty()){
+                val dialog = AlertDialog.Builder(requireContext())
+                    .setIcon(R.drawable.ic_info)
+                    .setTitle("O'chirish")
+                    .setMessage("Ushbu note larni rostanham o'chirmoqchimisz!")
+                    .setPositiveButton("ha") { dialog, which ->
+                        database.deleteNotes(list)
+                        val newData=ArrayList<Note>()
+                        newData.addAll(database.getAllNote())
+                        rvAdapterNote.updateDate(newData)
+                        binding.rvNote.adapter=rvAdapterNote
+                        list.clear()
+                        dialog.cancel()
+                        AppObject.binding.actionDelete.visibility = View.GONE
+                        isShowing=true
+                    }
+                    .setNegativeButton("Yo'q") { dialog, which ->
+                        dialog.cancel()
+                    }
+                    .show()
+            }else{
+                val snackbar=Snackbar.make(binding.layoutMainInNote,"Yo'q qilish uchun avval uni bosib turing :) ",2555)
+                snackbar.setBackgroundTint(resources.getColor(R.color.mainColor))
+                snackbar.setActionTextColor(resources.getColor(R.color.siyoh))
+                snackbar.setAction("tushunarli"){
+                    snackbar.dismiss()
                 }
-                .setNegativeButton("Yo'q") { dialog, which ->
-                    dialog.dismiss()
-                }
-                .show()
-
+                snackbar.show()
+            }
         }
+    }
 
+    override fun selectItem() {
+        showCheckBoxOrHide()
+    }
 
+    private fun showCheckBoxOrHide(){
+            isShowing = if (isShowing) {
+                for (i in 0 until rvAdapterNote.list.count()) {
+                    val viewHolder =
+                        binding.rvNote.findViewHolderForAdapterPosition(i) as? RvAdapterNote.Vh
+                    viewHolder?.setCheckBoxesVisibility(View.VISIBLE)
+                }
+                list.clear()
+                false
+            } else {
+                for (i in 0 until rvAdapterNote.list.count()) {
+                    val viewHolder =
+                        binding.rvNote.findViewHolderForAdapterPosition(i) as? RvAdapterNote.Vh
+                    viewHolder?.setCheckBoxesVisibility(View.GONE)
+                }
+                list.clear()
+                true
+            }
     }
 }
 

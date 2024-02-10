@@ -30,15 +30,14 @@ class RvAdapterNote(val itemClick: ItemClick) :
 
             itemNoteRvBinding.itemNoteCheckBox.setOnCheckedChangeListener { buttonView, isChecked ->
                 note.isChecked=isChecked
-                itemClick.selectItem(note,position)
-
+                itemClick.itemDelete(note,position)
             }
+
 
             itemNoteRvBinding.root.setOnLongClickListener {
-                itemClick.itemDelete(note,position )
+                itemClick.selectItem()
                 true
             }
-
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Vh {
@@ -60,7 +59,9 @@ class RvAdapterNote(val itemClick: ItemClick) :
         list.addAll(newData)
     }
     interface ItemClick{
-        fun itemDelete(note: Note,position: Int)
-        fun selectItem(note: Note,position: Int)
+        fun itemDelete(note:Note,position:Int)
+
+        fun selectItem()
+
     }
 }

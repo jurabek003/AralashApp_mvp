@@ -87,7 +87,7 @@ class HomeFragment : Fragment(),Cantrakt.View,RvDialog.OnItemClick {
     }
 
     override fun errorResponse(tht: String) {
-        Toast.makeText(requireContext(), tht.toString(), Toast.LENGTH_LONG).show()
+        Log.d("ushla",tht)
         showProgress()
     }
 

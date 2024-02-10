@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
@@ -27,6 +28,8 @@ class NoteFragment : Fragment() {
     var isAllFabsVisible: Boolean = false
     private lateinit var dialog:MaterialAlertDialogBuilder
     private lateinit var customDialog:AlertDialog
+    private val database by lazy { NoteDataBase.newInstens(requireContext()).noteDao() }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -89,12 +92,55 @@ class NoteFragment : Fragment() {
                 }
             })
             addNoteItem()
+            searchNote()
 
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private fun addNoteItem(){
-        val database=NoteDataBase.newInstens(requireContext()).noteDao()
+
+        getAllNoteInRv()
+        dialogAddNoteBinding.btnSaveDialog.setOnClickListener {
+            val textNote=dialogAddNoteBinding.extractEditText.text.toString()
+            val note=Note(textNote)
+            database.insertNote(note)
+            rvAdapterNote.list.add(note)
+            rvAdapterNote.notifyItemInserted(rvAdapterNote.list.lastIndex)
+            customDialog.dismiss()
+        }
+    }
+    private fun searchNote(){
+        binding.searchNote.setOnQueryTextListener(object:androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                val list = database.searchNote(newText)
+                if (list.isNotEmpty()) {
+                    binding.rvNote.visibility=View.VISIBLE
+                    binding.lottiNoNote.visibility=View.GONE
+
+                    rvAdapterNote.list.clear()
+                    rvAdapterNote.list.addAll(list)
+                    rvAdapterNote.notifyDataSetChanged()
+
+                }
+                else {
+                    binding.rvNote.visibility=View.GONE
+                    binding.lottiNoNote.visibility=View.VISIBLE
+                }
+                if (newText==null){
+                    binding.rvNote.visibility=View.VISIBLE
+                    binding.lottiNoNote.visibility=View.GONE
+                    getAllNoteInRv()
+                }
+                return true
+            }
+        })
+        }
+
+    private fun getAllNoteInRv(){
         if (database.getAllNote().isNotEmpty()){
             val list=ArrayList<Note>()
             list.addAll(database.getAllNote())
@@ -104,21 +150,5 @@ class NoteFragment : Fragment() {
         }else{
             Toast.makeText(requireContext(), "LocalData empty :(", Toast.LENGTH_SHORT).show()
         }
-
-        dialogAddNoteBinding.btnSaveDialog.setOnClickListener {
-            val textNote=dialogAddNoteBinding.extractEditText.text.toString()
-            val note=Note(textNote)
-            database.insertNote(note)
-            rvAdapterNote.list.add(note)
-            rvAdapterNote.notifyItemInserted(rvAdapterNote.list.lastIndex)
-            customDialog.dismiss()
-        }
-
-
-
-
-
-
-
     }
-}
+    }

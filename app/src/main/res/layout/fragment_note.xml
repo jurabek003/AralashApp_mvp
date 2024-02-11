@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_main_in_note"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layoutDescription="@xml/fragment_note_scene"
     tools:context=".fragments.NoteFragment">
-
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/main_constrend"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lotti_no_note"
         android:layout_width="200dp"
@@ -24,40 +28,40 @@
         android:id="@+id/search_note"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        app:queryHint="Search"
-        app:searchIcon="@android:drawable/ic_menu_search"
-        app:iconifiedByDefault="true"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="5dp"
-        app:layout_wrapBehaviorInParent="vertical_only"
         android:background="@drawable/shape_add_note"
         app:closeIcon="@android:drawable/ic_menu_close_clear_cancel"
-        app:layout_constraintStart_toStartOf="parent"
+        app:iconifiedByDefault="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_wrapBehaviorInParent="vertical_only"
+        app:queryHint="Search"
+        app:searchIcon="@android:drawable/ic_menu_search" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_note"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="5dp"
-        tools:listitem="@layout/item_note_rv"
-        android:splitMotionEvents="true"
         android:duplicateParentState="true"
-        app:spanCount="2"
+        android:splitMotionEvents="true"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_note"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"/>
+        app:spanCount="2"
+        tools:listitem="@layout/item_note_rv" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/ext_flt_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:icon="@android:drawable/ic_input_add"
+        android:layout_margin="15dp"
         android:text="Add"
         app:backgroundTint="@color/mainColor"
+        app:icon="@android:drawable/ic_input_add"
         app:iconGravity="end"
-        android:layout_margin="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -66,25 +70,26 @@
         android:id="@+id/floatingActionButton1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:contentDescription="FloatingActionButton"
         android:src="@drawable/ic_add_note"
         app:backgroundTint="@color/mainColor"
-        android:layout_marginBottom="10dp"
         app:fabSize="normal"
         app:layout_constraintBottom_toTopOf="@+id/ext_flt_btn"
-        app:layout_constraintEnd_toEndOf="@+id/ext_flt_btn"
-        android:contentDescription="FloatingActionButton" />
+        app:layout_constraintEnd_toEndOf="@+id/ext_flt_btn" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        app:fabSize="normal"
-        app:backgroundTint="@color/mainColor"
         android:src="@drawable/ic_delete"
+        app:backgroundTint="@color/mainColor"
+        app:fabSize="normal"
         app:layout_constraintBottom_toTopOf="@+id/floatingActionButton1"
         app:layout_constraintEnd_toEndOf="@+id/floatingActionButton1"
         app:layout_constraintStart_toStartOf="@+id/floatingActionButton1" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.motion.widget.MotionLayout>
